@@ -154,33 +154,6 @@ jobs:
             --no-default-features \
             --features async-await,unstable,cfg-target-has-atomic
 
-  thumbv7m:
-    name: cargo build --target thumbv7m-none-eabi
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - name: Install Rust
-        run: rustup update nightly && rustup default nightly
-      - run: rustup target add thumbv7m-none-eabi
-      - run: cargo install cargo-hack
-      # remove dev-dependencies to avoid https://github.com/rust-lang/cargo/issues/4866
-      - run: cargo hack --remove-dev-deps --workspace
-      - run: |
-          cargo build --manifest-path futures/Cargo.toml \
-            --target thumbv7m-none-eabi \
-            --no-default-features \
-            --features unstable,cfg-target-has-atomic
-      - run: |
-          cargo build --manifest-path futures/Cargo.toml \
-            --target thumbv7m-none-eabi \
-            --no-default-features \
-            --features alloc
-      - run: |
-          cargo build --manifest-path futures/Cargo.toml \
-            --target thumbv7m-none-eabi \
-            --no-default-features \
-            --features async-await
-
   bench:
     name: cargo bench
     runs-on: ubuntu-latest
